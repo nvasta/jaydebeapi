@@ -7,12 +7,12 @@
 # it under the terms of the GNU Lesser General Public License as
 # published by the Free Software Foundation, either version 3 of the
 # License, or (at your option) any later version.
-# 
+#
 # JayDeBeApi is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 # Lesser General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU Lesser General Public
 # License along with JayDeBeApi.  If not, see
 # <http://www.gnu.org/licenses/>.
@@ -156,7 +156,7 @@ def _handle_sql_exception_jpype():
     else:
         exc_type = InterfaceError
     reraise(exc_type, exc_info[1], exc_info[2])
-    
+
 def _jdbc_connect_jpype(jclassname, url, driver_args, jars, libs):
     import jpype
     if not jpype.isJVMStarted():
@@ -195,11 +195,11 @@ def _jdbc_connect_jpype(jclassname, url, driver_args, jars, libs):
     if _jdbc_name_to_const is None:
         types = jpype.java.sql.Types
         types_map = {}
-        for i in types.__javaclass__.getClassFields():
+        for i in types.class_.getDeclaredFields():
             if old_jpype:
                 const = i.getStaticAttribute()
             else:
-                const = i.__get__(i)
+                const = i.get(i)
             types_map[i.getName()] = const
         _init_types(types_map)
     global _java_array_byte
